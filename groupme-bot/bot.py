@@ -37,23 +37,44 @@ def get_group_messages(since_id=None):
 def process_message(message):
     """Process and respond to a message."""
     global LAST_MESSAGE_ID
-    text = message["text"].lower()
+    
 
-    # i.e. responding to a specific message (note that this checks if "hello bot" is anywhere in the message, not just the beginning)
-    if "hello bot" in text:
-        send_message("sup")
+    sender_user_id = str(message.get("user_id"))
+    sender_user_name = str(message.get("name"))
+    
+    
+    if sender_user_id == "87796592":
+        text = message["text"].lower()
 
+        #Checks if the message is "hello bot"
+        if "hello bot" == text:
+            send_message("sup")
+        elif "good morning" in text:
+            send_message(f"good morning, {sender_user_name}")
+        elif "good night" in text:
+            send_message(f"good night, {sender_user_name}")
+    elif sender_user_id != None and str(message.get("sender_type")) == "user":
+        text = message["text"].lower()
+        if sender_user_id != None:
+            if "good morning" in text:
+                send_message(f"good morning, {sender_user_name}")
+            elif "good night" in text:
+                send_message(f"good night, {sender_user_name}")
+    print("Processed Message:", message)
     LAST_MESSAGE_ID = message["id"]
 
 
 def main():
     global LAST_MESSAGE_ID
+    LAST_MESSAGE_ID = None
     # this is an infinite loop that will try to read (potentially) new messages every 10 seconds, but you can change this to run only once or whatever you want
     while True:
         messages = get_group_messages(LAST_MESSAGE_ID)
         for message in reversed(messages):
             process_message(message)
-        time.sleep(10)
+            break
+            
+        time.sleep(3)
 
 
 if __name__ == "__main__":
