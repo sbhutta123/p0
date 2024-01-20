@@ -34,11 +34,10 @@ def get_group_messages(since_id=None):
     return []
 
 def get_dad_joke():
-    print("here")
+    
     joke_url = "https://icanhazdadjoke.com/"
     headers = {"Accept": "text/plain"}
     response = requests.get(joke_url, headers=headers)
-    print(response.text)
 
     if response.status_code == 200:
         return response.text
