@@ -54,13 +54,10 @@ def process_message(message):
     sender_user_name = str(message.get("name"))
     
     
-    if sender_user_id == "87796592":
+    
+    if sender_user_id != None and str(message.get("sender_type")) == "user":
         text = message["text"].lower()
-
-        #Checks if the message is "hello bot"
-        if "hello bot" == text:
-            send_message("sup")
-        elif "good morning" in text:
+        if "good morning" in text:
             send_message(f"good morning, {sender_user_name}")
         elif "good night" in text:
             send_message(f"good night, {sender_user_name}")
@@ -68,13 +65,10 @@ def process_message(message):
             dad_joke = get_dad_joke()
             print(dad_joke)
             send_message(dad_joke)
-    elif sender_user_id != None and str(message.get("sender_type")) == "user":
-        text = message["text"].lower()
-        if sender_user_id != None:
-            if "good morning" in text:
-                send_message(f"good morning, {sender_user_name}")
-            elif "good night" in text:
-                send_message(f"good night, {sender_user_name}")
+        if sender_user_id == "87796592":
+            if "hello bot" == text:
+                send_message("sup")
+            
             
     print(message)
     LAST_MESSAGE_ID = message["id"]
