@@ -33,6 +33,17 @@ def get_group_messages(since_id=None):
         return response.json().get("response", {}).get("messages", [])
     return []
 
+def get_dad_joke():
+    print("here")
+    joke_url = "https://icanhazdadjoke.com/"
+    headers = {"Accept": "text/plain"}
+    response = requests.get(joke_url, headers=headers)
+    print(response.text)
+
+    if response.status_code == 200:
+        return response.text
+    else:
+        return "Sorry, I couldn't fetch a dad joke at the moment."
 
 def process_message(message):
     """Process and respond to a message."""
@@ -53,6 +64,10 @@ def process_message(message):
             send_message(f"good morning, {sender_user_name}")
         elif "good night" in text:
             send_message(f"good night, {sender_user_name}")
+        elif "tell me a joke" in text:
+            dad_joke = get_dad_joke()
+            print(dad_joke)
+            send_message(dad_joke)
     elif sender_user_id != None and str(message.get("sender_type")) == "user":
         text = message["text"].lower()
         if sender_user_id != None:
@@ -60,7 +75,8 @@ def process_message(message):
                 send_message(f"good morning, {sender_user_name}")
             elif "good night" in text:
                 send_message(f"good night, {sender_user_name}")
-
+            
+    print(message)
     LAST_MESSAGE_ID = message["id"]
 
 
@@ -70,7 +86,7 @@ def main():
     # this is an infinite loop that will try to read (potentially) new messages every 10 seconds, but you can change this to run only once or whatever you want
         while True:
             messages = get_group_messages(LAST_MESSAGE_ID)
-            for message in reversed(messages):
+            for message in (messages):
                 process_message(message)
                 break
             
