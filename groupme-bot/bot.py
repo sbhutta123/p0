@@ -70,7 +70,7 @@ def process_message(message):
                 send_message("sup")
             
             
-    print(message)
+    
     LAST_MESSAGE_ID = message["id"]
 
 
