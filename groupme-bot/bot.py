@@ -66,15 +66,18 @@ def process_message(message):
 
 def main():
     global LAST_MESSAGE_ID
-    LAST_MESSAGE_ID = None
+    try:
     # this is an infinite loop that will try to read (potentially) new messages every 10 seconds, but you can change this to run only once or whatever you want
-    while True:
-        messages = get_group_messages(LAST_MESSAGE_ID)
-        for message in reversed(messages):
-            process_message(message)
-            break
+        while True:
+            messages = get_group_messages(LAST_MESSAGE_ID)
+            for message in reversed(messages):
+                process_message(message)
+                break
             
-        time.sleep(3)
+            time.sleep(3)
+    except KeyboardInterrupt:
+        LAST_MESSAGE_ID = None
+        print("Script interrupted. LAST_MESSAGE_ID reset to None.")
 
 
 if __name__ == "__main__":
