@@ -60,7 +60,7 @@ def process_message(message):
                 send_message(f"good morning, {sender_user_name}")
             elif "good night" in text:
                 send_message(f"good night, {sender_user_name}")
-    print("Processed Message:", message)
+
     LAST_MESSAGE_ID = message["id"]
 
 
